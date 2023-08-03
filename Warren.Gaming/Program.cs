@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Runtime.CompilerServices;
 using Warren.Consle;
 using Warren.Domain;
+using Warren.SlotMachine.Validation;
 
 //LOAD CONFIGURATION
 var builder = new ConfigurationBuilder()
@@ -15,8 +17,16 @@ IConfiguration configuration = builder.Build();
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services => {
         services.AddSingleton(configuration);
-        services.Configure<Settings>(options => configuration.GetSection("settings").Bind(options));
-        services.Configure<SlotSettings>(options => configuration.GetSection("settings:slotSettings").Bind(options));
+        
+        services.AddOptions<Settings>()
+        .BindConfiguration("settings")
+        .Validate(SlotMachineSettingsValidator.ValidateSettings)
+        .ValidateOnStart();
+
+        services.AddOptions<SlotSettings>()
+        .BindConfiguration("settings:slotsettings")
+        .Validate(SlotMachineSettingsValidator.ValidateSlotSettings)
+        .ValidateOnStart();
 
         services.AddSingleton<SlotMachineGame>();
     })

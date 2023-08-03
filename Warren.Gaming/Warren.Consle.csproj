@@ -13,11 +13,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Warren.Domain\Warren.Domain.csproj" />
+    <ProjectReference Include="..\Warren.SlotMachine\Warren.SlotMachine.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
