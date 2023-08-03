@@ -32,7 +32,7 @@ namespace Warren.SlotMachine.SlotMachine
             return spinResult;
         }
 
-        private Symbol GetRandomSymbol()
+        protected Symbol GetRandomSymbol()
         {
             var spinValue = _random.NextDouble();
             var cumulative = 0.0;
