@@ -5,18 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Warren.Domain;
+using Warren.SlotMachine.SlotMachine;
 
 namespace Warren.Consle
 {
     public class SlotMachineGame
     {
-        private readonly Settings _settings;
-        private readonly SlotSettings _slotSettings;
+        private readonly ISlotMachine _slotMachine;
 
-        public SlotMachineGame(IOptions<Settings> settings, IOptions<SlotSettings> slotSettings)
+        public SlotMachineGame(ISlotMachine slotMachine)
         {
-            _settings= settings.Value;
-            _slotSettings= slotSettings.Value;
+            this._slotMachine = slotMachine;   
         }
 
         public void Execute()

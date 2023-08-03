@@ -4,6 +4,8 @@ using Microsoft.Extensions.Hosting;
 using System.Runtime.CompilerServices;
 using Warren.Consle;
 using Warren.Domain;
+using Warren.SlotMachine.Account;
+using Warren.SlotMachine.SlotMachine;
 using Warren.SlotMachine.Validation;
 
 //LOAD CONFIGURATION
@@ -29,6 +31,10 @@ var host = Host.CreateDefaultBuilder(args)
         .ValidateOnStart();
 
         services.AddSingleton<SlotMachineGame>();
+
+        services.AddSingleton<IAccountService, AccountService>();
+        services.AddTransient<ISlotMachineEngine, SlotMachineEngine>();
+        services.AddTransient<ISlotMachine, SlotMachine>();
     })
     .Build();
 
