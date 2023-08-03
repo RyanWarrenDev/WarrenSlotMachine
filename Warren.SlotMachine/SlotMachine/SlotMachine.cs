@@ -19,16 +19,7 @@ namespace Warren.SlotMachine.SlotMachine
 
         private readonly ISlotMachineEngine _slotMachineEngine;
 
-        private double MinStake
-        {
-            get
-            {
-                var accountBalance = _accountService.GetBalance();
-                return accountBalance > _settings.MinStake ? _settings.MinStake : accountBalance;
-            }
-        }
-
-        private double MaxStake
+        public double MaxStake
         {
             get
             {
@@ -46,8 +37,8 @@ namespace Warren.SlotMachine.SlotMachine
 
         public IList<SpinResult> Spin(double stakeAmount)
         {
-            if (stakeAmount < MinStake || stakeAmount > MaxStake)
-                throw new Exception($"Please enter a stake amount between {MinStake} & {MaxStake}");
+            if (stakeAmount > MaxStake)
+                throw new Exception($"Please enter a stake amount below {MaxStake}");
 
             var results = new List<SpinResult>();
             try

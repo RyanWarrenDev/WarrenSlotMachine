@@ -11,6 +11,6 @@ namespace Warren.SlotMachine.SlotMachine
     {
         SpinResult Roll();
 
-        void EvaluateSpin(SpinResult spinResult, double stakeAmount)
+        void EvaluateSpin(SpinResult spinResult, double stakeAmount);
     }
 }
