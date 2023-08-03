@@ -19,6 +19,8 @@ namespace Warren.Consle
 
         private readonly Settings _settings;
 
+        private double AccountBalance => _accountService.GetBalance();
+
         public SlotMachineGame(IAccountService accountService, ISlotMachine slotMachine, IOptions<Settings> settings)
         {
             _accountService = accountService;
@@ -30,15 +32,9 @@ namespace Warren.Consle
         {
             MakeDeposit();
 
-            while (_accountService.GetBalance() > 0)
+            while (AccountBalance > 0)
             {
-                var selectedOption = WriteOptionsToConsole();
-
-                if (selectedOption == 1)
-                    PlaySlots();
-
-                if (selectedOption == 2)
-                    MakeDeposit();
+                PlaySlots();
             }
         }
 
@@ -57,25 +53,6 @@ namespace Warren.Consle
             var accountBalance = _accountService.Deposit(depositAmount);
 
             Console.WriteLine($"Successfully deposited {depositAmount}, account balance now £{accountBalance}");
-        }
-
-        private int WriteOptionsToConsole()
-        {
-            var option = 0;
-            while (!new[] { 1, 2 }.Contains(option))
-            {
-                Console.WriteLine("Please choose an option.");
-                Console.WriteLine("\n1. Spin");
-                Console.WriteLine("\n2. Make Deposit");
-                Console.WriteLine($"\n\n Account Balance: £{_accountService.GetBalance()}");
-
-                if (!int.TryParse(Console.ReadLine(), out option))
-                {
-                    Console.WriteLine("Sorry, looks like something went wrong. Please try again");
-                }
-            }
-
-            return option;
         }
 
         private void PlaySlots()
@@ -105,7 +82,7 @@ namespace Warren.Consle
             var stakeAmount = 0.0;
             while (stakeAmount < _settings.MinStake || stakeAmount > _slotMachine.MaxStake)
             {
-                Console.WriteLine($"Please enter a stake equal to or less than £{_slotMachine.MaxStake}");
+                Console.WriteLine($"Please enter a stake equal to or less than £{_slotMachine.MaxStake}. Account Balance: £{AccountBalance.ToString("0.##")}");
                 if (!double.TryParse(Console.ReadLine(), out stakeAmount))
                 {
                     Console.WriteLine("Sorry, looks like something went wrong. Please try again");
